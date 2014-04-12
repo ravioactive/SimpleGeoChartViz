@@ -25,6 +25,8 @@
 
 var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
 
+
+
 function newLocation(query) {
     var queryResult = new QueryResult(query);
     refreshMap(queryResult);
