@@ -1,27 +1,63 @@
 .stickToTop {
-
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 80px;
 }
 
 .stickToBase {
-
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
 }
 
-.new {
-
+.input {
+    display: block;
+    float: left;
+    width: 400px;
 }
 
 .message {
+    width: 53%;
+    height: 100%;
+    white-space: nowrap;
+}
 
+.chart {
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .back {
-
+    display: block;
+    margin: 0 auto;
+    float: right;
 }
 
 .up {
-
+    display: block;
+    margin: 0 auto;
 }
 
 .fwd {
+    display: block;
+    margin: 0 auto;
+    float: left;
+}
 
+.col_back {
+    width: 33%;
+    height: 100%;
+}
+
+.col_up {
+    width: 33%;
+    height: 100%;
+}
+
+.col_fwd {
+    width: 33%;
+    height: 100%;
 }
