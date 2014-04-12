@@ -21,10 +21,43 @@
 
             var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
             chart.draw(data, options);
-        };
+        }
     </script>
+    <link rel="stylesheet" type="text/css" href="MapView.css"/>
+    <script type="text/javascript" src="History.js"></script>
+    <script type="text/javascript" src="QueryResult.js"></script>
+    <script type="text/javascript" src="MapHandler.js"></script>
 </head>
 <body>
-<div id="chart_div" style="width: 900px; height: 500px;"></div>
+<div>
+    <div id="header" class="stickToTop">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <form id="inputForm">
+                            <label for="inputBox" form="inputForm">
+                                <input id="inputBox" name="inputBox" type="text" class="new" onsubmit="newLocation(this.text)"/>
+                            </label>
+                        </form>
+                    </td>
+                    <td id="status" class="message"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="footer" class="stickToBase">
+        <table>
+            <tbody>
+            <tr>
+                <td id="back" class="back" onclick="gotoBack()"></td>
+                <td id="up" class="up" onclick="gotoTop()"></td>
+                <td id="fwd" class="fwd" onclick="gotoNext()"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
