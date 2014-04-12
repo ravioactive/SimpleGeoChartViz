@@ -32,8 +32,12 @@ HistoryStates.prototype.moveFwd = function() {
     return this.activeState;
 };
 
+HistoryStates.prototype.getCurrent = function() {
+    return this.activeState;
+};
+
 HistoryStates.prototype.getPrevious = function() {
-    return this.bkStates[this.bkStates.length-1];
+    return this.bkStates[this.bkStates.length-2];
 };
 
 HistoryStates.prototype.getNext = function() {

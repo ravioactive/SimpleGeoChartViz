@@ -25,8 +25,8 @@ QueryResult.prototype.construct = function() {
     this.setOptions();
     this.setBreadcrumb();
     this.setTop();
-    history.addHistory(this);
     this.setPrevious();
+    history.addHistory(this);
     this.init = true;
 };
 
@@ -35,7 +35,7 @@ QueryResult.prototype.isOkay = function() {
 };
 
 QueryResult.prototype.fetchAnalytics = function() {
-    this.data = getAnalyticsResponse(this.query, extractData);
+    this.data = getAnalyticsResponse(this, extractData);
     this.status_code = status_code;
 };
 
@@ -72,7 +72,11 @@ QueryResult.prototype.setTop = function() {
 };
 
 QueryResult.prototype.setPrevious = function() {
-    this.prev = history.getPrevious();
+    this.prev = history.activeState;
+};
+
+QueryResult.prototype.getData = function() {
+    return this.data;
 };
 
 QueryResult.prototype.getOptions = function() {
@@ -92,21 +96,17 @@ QueryResult.prototype.getStatusMessage = function() {
     return message;
 };
 
-/*QueryResult.prototype.setData = function(data) {
+QueryResult.prototype.setData = function(data) {
  this.data = data;
- };
-
- QueryResult.prototype.getData = function() {
- return this.data;
- };*/
+};
 
 
 var app_url = "http://www.contentsavvy.com/data/getTrends.jsp?q=";
 var ajaxRequest;
 var status_code;
 
-function getAnalyticsResponse(query, callback) {
-    var url = getUrlFor(this.query);
+function getAnalyticsResponse(queryResult, callback) {
+    var url = getUrlFor(queryResult.query);
     if (window.XMLHttpRequest) {
         ajaxRequest = new XMLHttpRequest();
     } else if (window.ActiveXObject) {
@@ -114,7 +114,9 @@ function getAnalyticsResponse(query, callback) {
     }
 
     ajaxRequest.open("GET", url, true);
-    ajaxRequest.onreadystatechange = callback;
+    ajaxRequest.onreadystatechange = function(queryResult) {
+        callback(queryResult);
+    };
     ajaxRequest.send(null);
 }
 
@@ -124,8 +126,8 @@ function getUrlFor(query) {
     return urlStr;
 }
 
-function extractData() {
-    data = null;
+function extractData(queryResult) {
+    var data = null;
     if (ajaxRequest.readyState == 4) {
         if (ajaxRequest.status == 200) {
             data = ajaxRequest.responseText;
@@ -137,7 +139,7 @@ function extractData() {
         if(data == null) {
             data = []
         }
-        return data;
+        queryResult.setData(data);
     }
 }
 

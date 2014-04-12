@@ -82,8 +82,9 @@ function refreshMap(queryResult) {
         setBackDom(queryResult.prev);
         setFwdDom();
 
+        var data = queryResult.getData();
         var options = queryResult.getOptions();
-        chart.draw(mapdata, options);
+        chart.draw(data, options);
     } else {
         handleErrorsOnDom(queryResult.getStatusMessage());
     }
