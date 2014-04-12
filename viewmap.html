@@ -7,28 +7,30 @@
     <script type="text/javascript" src="MapHandler.js"></script>
 </head>
 <body>
-<div style="width: 100%; height: 100%; overflow: hidden;">
+<div class="mainContainer">
     <div id="header" class="stickToTop">
         <form id="inputForm">
-        <table style="width: 100%;height: 80px;">
+        <table class="mainTable">
             <tbody>
                 <tr>
-                    <td style="height: 100%; width: 8%; text-align: right; padding-right: 10px;">Search</td>
-                    <td style="height: 100%; width: 23%;">
+                    <td class="headerSearchCol">Search</td>
+                    <td class="headerInputCol">
                         <label for="inputBox"></label>
                         <input id="inputBox" name="inputBox" type="text" class="input"
                                onsubmit="newLocation(this.text)">
                     </td>
-                    <td style="height: 100%; width: 8%;">
+                    <td class="headerSubmitCol">
                         <input type="submit" value="Submit">
                     </td>
-                    <td style="height: 100%; width: 8%;">
+                    <td class="headerStatusCol">
                         <span>
                             STATUS MESSAGE:
                         </span>
                     </td>
-                    <td id="status" class="message">
-                        <span>Very fucking funny!!! Very fucking funny!!! Very fucking funny!!! Very fucking funny!!! </span>
+                    <td class="headerMessageCol">
+                        <span id="status">
+                            Very fucking funny!!! Very fucking funny!!! Very fucking funny!!! Very fucking funny!!!
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -37,16 +39,16 @@
     </div>
     <div id="chart_div" class="chart"></div>
     <div id="footer" class="stickToBase">
-        <table style="width: 100%;height: 80px;">
+        <table class="mainTable">
             <tbody>
                 <tr>
-                    <td class="col_back">
+                    <td class="footerBackCol">
                         <button id="back" class="back" value="Back" type="submit" onclick="gotoBack()">BACK</button>
                     </td>
-                    <td class="col_up">
+                    <td class="footerUpCol">
                         <button id="up" class="up" value="Up" type="submit" onclick="gotoTop()">UP</button>
                     </td>
-                    <td class="col_fwd">
+                    <td class="footerFwdCol">
                         <button id="fwd" class="fwd" value="Next" type="submit" onclick="gotoNext()">NEXT</button>
                     </td>
                 </tr>
