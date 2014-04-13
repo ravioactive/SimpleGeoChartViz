@@ -47,7 +47,7 @@ function gotoNext() {
 }
 
 function setBreadcrumbDOM(queryResult) {
-    //set DOM element
+    //set DOM element - For now just the message span.
     var breadCrumb = queryResult.breadcrumb;
     var breadCrumbLength = breadCrumb.length;
     var breadCrumbStr = "";

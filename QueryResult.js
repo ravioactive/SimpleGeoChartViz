@@ -20,7 +20,6 @@ function QueryResult(query) {
 }
 
 QueryResult.prototype.construct = function() {
-//this.setPrevious();
     //this.fetchAnalytics();
     this.fetchDummies();
     if(this.isOkay()) {
