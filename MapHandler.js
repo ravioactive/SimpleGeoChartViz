@@ -1,10 +1,4 @@
 /**
- * User: ravioactive
- * Date: 4/10/14
- * Time: 3:11 PM
- */
-
-/**
  * TODO:
  * 1. Prepare DOM. Wire with JS.
  * 2. Get the ISO data, start with dummy data
@@ -22,10 +16,26 @@
  * 3. Next query
  * 4. Back and forth, Back and forth, Back and forth...
  */
+/**
+ * User: ravioactive
+ * Date: 4/10/14
+ * Time: 3:11 PM
+ */
 
-var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
 
-function newLocation(query) {
+google.load('visualization', '1', {'packages': ['geochart']});
+var chart = null;
+function onLoad() {
+    chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+}
+
+function ensureChart() {
+    if(chart==null) {
+        chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+    }
+}
+function newLocation() {
+    var query = document.getElementById("inputBox").value;
     var queryResult = new QueryResult(query);
     refreshMap(queryResult);
 }
@@ -58,24 +68,25 @@ function setBreadcrumbDOM(queryResult) {
         breadCrumbStr += breadCrumb[i];
     }
 
-    document.getElementById("status").text = breadCrumbStr;
+    document.getElementById("status").innerHTML = breadCrumbStr;
 }
 
 function handleErrorsOnDom(message) {
     //set DOM element
-    document.getElementById("status").text = message;
+    document.getElementById("status").innerHTML = message;
 }
 
 function refreshMap(queryResult) {
+    ensureChart();
     if(queryResult.init == false) {
         queryResult.construct();
     }
 
     if(queryResult.isOkay()) {
-        setBreadcrumbDOM(queryResult.breadcrumb);
-        setUpDOM(queryResult.up);
-        setBackDom(queryResult.prev);
-        setFwdDom();
+        setBreadcrumbDOM(queryResult);
+        //setUpDOM(queryResult.up);
+        //setBackDom(queryResult.prev);
+        //setFwdDom();
 
         var data = google.visualization.arrayToDataTable(queryResult.getData());
         var options = queryResult.getOptions();

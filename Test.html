@@ -1,0 +1,35 @@
+<html>
+<head>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+        google.load('visualization', '1', {'packages': ['geochart']});
+        google.setOnLoadCallback(drawRegionsMap);
+
+        var dummy = {
+            "US" :
+                    [['Place', 'Analytics'],
+                        ['NY', 200],
+                        ['AZ', 300],
+                        ['CA', 400],
+                        ['OR', 500],
+                        ['CO', 600],
+                        ['MI', 700]]
+        };
+
+        function drawRegionsMap() {
+            var _data = dummy['US'];
+            var data = google.visualization.arrayToDataTable(_data);
+
+            var options = {};
+            //options['region'] = "US";
+            options["resolution"] = "provinces";
+
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

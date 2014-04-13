@@ -53,10 +53,11 @@ QueryResult.prototype.setOptions = function() {
         this.resolution = "countries";
         this.region = this.query;
         this.location = this.query;
-    } else if(this.query.index('-') < 0) {
+    } else if(this.query.indexOf('-') < 0) {
         this.resolution = "provinces";
+        this.region = this.query;
         this.location = this.query;
-    } else if(this.query.index('-') > 1) {
+    } else if(this.query.indexOf('-') > 1) {
         this.resolution = "metros";
         var parts = this.query.split("-");
         this.region = parts[0];
@@ -80,7 +81,7 @@ QueryResult.prototype.setBreadcrumb = function() {
 };
 
 QueryResult.prototype.setTop = function() {
-    var length = this.breadcrumb;
+    var length = this.breadcrumb.length;
     this.up = new QueryResult(this.breadcrumb[length-2]);
 };
 
@@ -178,7 +179,7 @@ function getDummyResponse(queryResult) {
     var data = null;
     var status = null;
     data = dummy[queryResult.query];
-    if(data == null || isNaN(data) || data.empty()) {
+    if(data == null || (data.length == 0)) {
         data = [];
         status = "Server Response Empty";
     } else {
