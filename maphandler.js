@@ -82,7 +82,7 @@ function refreshMap(queryResult) {
         setBackDom(queryResult.prev);
         setFwdDom();
 
-        var data = queryResult.getData();
+        var data = google.visualization.arrayToDataTable(queryResult.getData());
         var options = queryResult.getOptions();
         chart.draw(data, options);
     } else {

@@ -11,7 +11,7 @@ function QueryResult(query) {
     this.location = null;
     this.region = null;
     this.breadcrumb = null;
-    this.status_code = 500;
+    this.status_code = "Uninitialized";
     this.data = null;
 
     this.prev = null;
@@ -22,16 +22,18 @@ function QueryResult(query) {
 QueryResult.prototype.construct = function() {
 //this.setPrevious();
     this.fetchAnalytics();
-    this.setOptions();
-    this.setBreadcrumb();
-    this.setTop();
-    this.setPrevious();
-    history.addHistory(this);
-    this.init = true;
+    if(this.isOkay()) {
+        this.setOptions();
+        this.setBreadcrumb();
+        this.setTop();
+        this.setPrevious();
+        history.addHistory(this);
+        this.init = true;
+    }
 };
 
 QueryResult.prototype.isOkay = function() {
-    return (this.status_code == 200);
+    return (this.status_code == "OK");
 };
 
 QueryResult.prototype.fetchAnalytics = function() {
@@ -40,30 +42,34 @@ QueryResult.prototype.fetchAnalytics = function() {
 };
 
 QueryResult.prototype.setOptions = function() {
-    idx = this.query.index('-');
-    if(idx < 0) {
+    if(this.query === "*" || this.query === "World") {
         this.resolution = "countries";
-        this.location = this.query;
-    } else if(idx > 1){
+        this.location = "World";
+        this.region = "World";
+    } else if(isContinent(this.query)) {
+        this.resolution = "countries";
+        this.region = this.query;
+    } else if(this.query.index('-') < 0) {
         this.resolution = "provinces";
+        this.location = this.query;
+    } else if(this.query.index('-') > 1) {
+        this.resolution = "metros";
         var parts = this.query.split("-");
         this.region = parts[0];
         this.location = parts[1];
     }
+
 };
 
 QueryResult.prototype.setBreadcrumb = function() {
     this.breadcrumb = [];
-    var basicLocation = this.location;
+    this.breadcrumb.push("World");
     if(this.resolution === "provinces") {
-        basicLocation = this.region;
+        this.breadcrumb.push(this.location);
+    } else if(this.resolution === "metros") {
+        this.breadcrumb.push(this.region);
+        this.breadcrumb.push(this.location);
     }
-    this.breadcrumb.push(getContinentFor(basicLocation));
-    //this.breadcrumb.push(getSubregionFor(basicLocation));
-    if(this.resolution === "provinces") {
-        this.breadcrumb.push(basicLocation);
-    }
-    this.breadcrumb.push(this.location);
 };
 
 QueryResult.prototype.setTop = function() {
@@ -81,15 +87,20 @@ QueryResult.prototype.getData = function() {
 
 QueryResult.prototype.getOptions = function() {
     var options = {};
-    options['region'] = this.region;
     options['resolution'] = this.resolution;
+    if(this.resolution == "provinces" || isContinent(this.query)) {
+        options['region'] = this.region;
+    } else if(this.resolution == "metros") {
+        //query (CC-SS) was broken into 'region'(CC) and location(SS)
+        options['region'] = this.query;
+    }
     return options;
 };
 
 QueryResult.prototype.getStatusMessage = function() {
     var message = "";
     if(this.isOkay()) {
-        message = "OK"
+        message = "Server response successful.";
     } else {
         message = "Error fetching data. Error Code: " + status_code;
     }
@@ -104,6 +115,10 @@ QueryResult.prototype.setData = function(data) {
 var app_url = "http://www.contentsavvy.com/data/getTrends.jsp?q=";
 var ajaxRequest;
 var status_code;
+
+function isContinent(n) {
+    return  (n.length == 3) && !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 function getAnalyticsResponse(queryResult, callback) {
     var url = getUrlFor(queryResult.query);
@@ -122,27 +137,32 @@ function getAnalyticsResponse(queryResult, callback) {
 
 
 function getUrlFor(query) {
-    urlStr = app_url + query;
-    return urlStr;
+    if(query == "World") {
+        query = "*";
+    }
+    return app_url + query;
 }
 
 function extractData(queryResult) {
     var data = null;
+    var status = null;
     if (ajaxRequest.readyState == 4) {
         if (ajaxRequest.status == 200) {
             data = ajaxRequest.responseText;
+            status = "OK"
         } else {
-            alert("Cannot load data!");
+            //alert("Cannot load data!");
+            status = "Server Request Failed. Code: " + ajaxRequest.status;
         }
 
-        status_code = ajaxRequest.status;
         if(data == null) {
-            data = []
+            data = [];
+            status = "Server Response Empty."
         }
         queryResult.setData(data);
+        queryResult.status_code = status;
     }
 }
-
 
 function getSubregionFor(query) {
     //Look in country to subcontinent table
