@@ -21,7 +21,8 @@ function QueryResult(query) {
 
 QueryResult.prototype.construct = function() {
 //this.setPrevious();
-    this.fetchAnalytics();
+    //this.fetchAnalytics();
+    this.fetchDummies();
     if(this.isOkay()) {
         this.setOptions();
         this.setBreadcrumb();
@@ -36,9 +37,12 @@ QueryResult.prototype.isOkay = function() {
     return (this.status_code == "OK");
 };
 
+QueryResult.prototype.fetchDummies = function() {
+    getDummyResponse(this);
+};
+
 QueryResult.prototype.fetchAnalytics = function() {
-    this.data = getAnalyticsResponse(this, extractData);
-    this.status_code = status_code;
+    getAnalyticsResponse(this, extractData);
 };
 
 QueryResult.prototype.setOptions = function() {
@@ -49,6 +53,7 @@ QueryResult.prototype.setOptions = function() {
     } else if(isContinent(this.query)) {
         this.resolution = "countries";
         this.region = this.query;
+        this.location = this.query;
     } else if(this.query.index('-') < 0) {
         this.resolution = "provinces";
         this.location = this.query;
@@ -64,6 +69,9 @@ QueryResult.prototype.setOptions = function() {
 QueryResult.prototype.setBreadcrumb = function() {
     this.breadcrumb = [];
     this.breadcrumb.push("World");
+    if(isContinent(this.query)) {
+        this.breadcrumb.push(this.region);
+    }
     if(this.resolution === "provinces") {
         this.breadcrumb.push(this.location);
     } else if(this.resolution === "metros") {
@@ -162,6 +170,20 @@ function extractData(queryResult) {
     } else {
         data = [];
         status = "Request was not ready."
+    }
+    queryResult.setData(data);
+    queryResult.status_code = status;
+}
+
+function getDummyResponse(queryResult) {
+    var data = null;
+    var status = null;
+    data = dummy[queryResult.query];
+    if(data == null || isNaN(data) || data.empty()) {
+        data = [];
+        status = "Server Response Empty";
+    } else {
+        status = "OK";
     }
     queryResult.setData(data);
     queryResult.status_code = status;
