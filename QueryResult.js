@@ -159,9 +159,12 @@ function extractData(queryResult) {
             data = [];
             status = "Server Response Empty."
         }
-        queryResult.setData(data);
-        queryResult.status_code = status;
+    } else {
+        data = [];
+        status = "Request was not ready."
     }
+    queryResult.setData(data);
+    queryResult.status_code = status;
 }
 
 function getSubregionFor(query) {
