@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/MapView.css"/>
+</head>
+<body>
+
+<!--one div to rule them all...-->
+<div class="mainContainer">
+    <div id="header" class="header stickToTop">
+        <table class="mainTable">
+            <tbody>
+            <tr>
+                <td class="headerSearchCol"><p class="labels">SEARCH</p></td>
+                <td class="headerInputCol">
+                    <label for="inputBox"></label>
+                    <input id="inputBox" name="inputBox" type="text" class="input">
+                </td>
+                <td class="headerSubmitCol">
+                    <button type="submit" value="submit" class="submit" onclick="newLocation()">Submit</button>
+                </td>
+                <td class="headerStatusCol">
+                        <span class="labels">
+                            STATUS:
+                        </span>
+                </td>
+                <td class="headerMessageCol">
+                        <span id="status" class="message">
+
+                        </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--one div to find them...-->
+    <div id="chart_div" class="chart"></div>
+    <div id="footer" class="footer stickToBase">
+        <table class="mainTable">
+            <tbody>
+            <tr>
+                <td class="footerBackCol">
+                    <button id="back" class="backDisabled" value="Back" type="submit" onclick="gotoBack()" disabled="disabled">BACK</button>
+                </td>
+                <td class="footerUpCol">
+                    <button id="up" class="upDisabled" value="Up" type="submit" onclick="gotoTop()" disabled="disabled">UP</button>
+                </td>
+                <td class="footerFwdCol">
+                    <button id="fwd" class="fwdDisabled" value="Next" type="submit" onclick="gotoNext()" disabled="disabled">NEXT</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+<script type="text/javascript" src="js/History.js"></script>
+<script type="text/javascript" src="js/QueryResult.js"></script>
+<script type="text/javascript" src="js/MapHandler.js"></script>
+<script type="text/javascript" src="js/DummyData.js"></script>
+<script type="text/javascript" src="js/ContinentalCategory.js"></script>
+<script type='text/javascript'>
+    google.setOnLoadCallback(onLoad);
+</script>
+</body>
+</html>
