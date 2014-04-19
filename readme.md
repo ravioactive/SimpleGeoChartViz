@@ -17,3 +17,5 @@ Overview
  * BACK – Shows the previous area viewed. Disabled when there are no previous views.
  * FWD – Shows the next area viewed. Disabled when there is no next item, i.e. the recent most view is shown.
 * Map areas are clickable, and clicking on any area makes a request to the server with that area’s supported ISO3166 code. This makes navigation easy.
+
+Plain old JavaScript (not even jQuery B|), CSS, HTML only. Just get it and run it.
