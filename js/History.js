@@ -65,4 +65,4 @@ HistoryStates.prototype.getNext = function() {
     return this.fwStates[this.fwStates.length-1];
 };
 
-var history = new HistoryStates();
+var historyStates = new HistoryStates();

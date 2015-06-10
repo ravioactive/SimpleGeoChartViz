@@ -40,24 +40,24 @@ function newLocation() {
 }
 
 function gotoTop() {
-    var current = history.activeState;
+    var current = historyStates.activeState;
     var top = current.up;
-    var next = history.getNext();
-    var prev = history.getPrevious();
+    var next = historyStates.getNext();
+    var prev = historyStates.getPrevious();
     if(next != null) {
         if(top.query == next.query) {
-            top = history.moveFwd();
+            top = historyStates.moveFwd();
         }
     } else if(prev!=null) {
         if(top.query == prev.query) {
-            top = history.moveBack();
+            top = historyStates.moveBack();
         }
     }
     refreshMap(top);
 }
 
 function gotoBack() {
-    var back = history.moveBack();
+    var back = historyStates.moveBack();
     if(back == null) {
         console.log("No more BACK!")
     } else {
@@ -66,7 +66,7 @@ function gotoBack() {
 }
 
 function gotoNext() {
-    var next = history.moveFwd();
+    var next = historyStates.moveFwd();
     if(next == null) {
         console.log("No more NEXT!")
     } else {
@@ -147,7 +147,7 @@ function refreshMap(queryResult) {
 
 function setBackDom() {
     //set DOM element(s) handling 'BACK' functionality
-    if(history.bkStates.length > 1) {
+    if(historyStates.bkStates.length > 1) {
         document.getElementById("back").disabled = false;
         document.getElementById("back").className = "backEnabled";
     } else {
@@ -158,7 +158,7 @@ function setBackDom() {
 
 function setFwdDom() {
     //set DOM element(s) handling 'FWD' functionality
-    if(history.fwStates.length > 0) {
+    if(historyStates.fwStates.length > 0) {
         document.getElementById("fwd").disabled = false;
         document.getElementById("fwd").className = "fwdEnabled";
     } else {

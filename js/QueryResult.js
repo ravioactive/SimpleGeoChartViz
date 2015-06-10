@@ -28,7 +28,7 @@ QueryResult.prototype.construct = function() {
         this.setOptions();
         this.setBreadcrumb();
         this.setTop();
-        history.addHistory(this);
+        historyStates.addHistory(this);
         this.init = true;
     }
 };
